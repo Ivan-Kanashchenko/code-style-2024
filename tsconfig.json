@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6", "dom", "ES2021.String"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+  }
+}

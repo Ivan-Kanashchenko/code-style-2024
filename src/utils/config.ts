@@ -1,0 +1,4 @@
+export const API_AUTH_BASE_URL = process.env.REACT_APP_PUBLIC_AUTH_ADDRESS;
+export const API_CORE_BASE_URL = process.env.REACT_APP_PUBLIC_CORE_ADDRESS;
+export const API_PAYMENT_BASE_URL =
+  process.env.REACT_APP_PUBLIC_PAYMENT_ADDRESS;
