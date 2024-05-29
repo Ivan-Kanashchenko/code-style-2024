@@ -41,6 +41,7 @@ export const generateRequestUrl = (
             ).toString(),
           )}`;
         }
+
         return value
           ? `${key}=${encodeURIComponent(value.toString())}`
           : undefined;
@@ -64,6 +65,7 @@ export const dateTransform = ({
   if (!date) {
     return null;
   }
+
   return dayjs(date).format(format);
 };
 
@@ -74,11 +76,13 @@ export const dateCreate = (
   if (date === null) {
     return;
   }
+
   if (!date) {
     return isUTCDisabled
       ? dayjs(Date.now()).local()
       : dayjs.utc(Date.now()).local();
   }
+
   return isUTCDisabled ? dayjs(date).local() : dayjs.utc(date).local();
 };
 
@@ -96,6 +100,7 @@ export const scheduledTimeCreate = (time: string | undefined) => {
     .set("minutes", Number(timeFrom[1]))
     .local()
     .format("h:mm A");
+
   const formattedTo = dayjs
     .utc()
     .set("hour", Number(timeTo[0]))
@@ -137,6 +142,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
         pickupTimeBefore: dayjs().startOf("day").toISOString(),
         pickupTimeAfter: dayjs().endOf("day").toISOString(),
       };
+
     case EFilterDateValue.YESTERDAY:
       return {
         pickupTimeBefore: dateCreate()
@@ -148,6 +154,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
           .endOf("day")
           .toISOString(),
       };
+
     case EFilterDateValue.IN_THE_LAST_7_DAYS:
       return {
         pickupTimeBefore: dayjs()
@@ -156,6 +163,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
           .toISOString(),
         pickupTimeAfter: dayjs().subtract(1, "day").endOf("day").toISOString(),
       };
+
     case EFilterDateValue.IN_THE_LAST_30_DAYS:
       return {
         pickupTimeBefore: dayjs()
@@ -164,6 +172,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
           .toISOString(),
         pickupTimeAfter: dayjs().subtract(1, "day").endOf("day").toISOString(),
       };
+
     case EFilterDateValue.IN_THE_LAST_90_DAYS:
       return {
         pickupTimeBefore: dayjs()
@@ -172,6 +181,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
           .toISOString(),
         pickupTimeAfter: dayjs().subtract(1, "day").endOf("day").toISOString(),
       };
+
     case EFilterDateValue.IN_THE_12_MONTHS:
       return {
         pickupTimeBefore: dayjs()
@@ -181,6 +191,7 @@ export const getRageDate = (value: EFilterDateValue | string) => {
           .toISOString(),
         pickupTimeAfter: dayjs().subtract(1, "day").endOf("day").toISOString(),
       };
+
     default:
       return {
         pickupTimeBefore: dayjs().startOf("day").toISOString(),
@@ -208,6 +219,7 @@ export const truncateString = (str: string, maxLength: number): string => {
 export const generateUniqueId = (): string => {
   const timestamp = new Date().getTime().toString(16);
   const randomNum = (Math.random() * Number.MAX_SAFE_INTEGER).toString(16);
+
   return `${timestamp}-${randomNum}`;
 };
 
@@ -215,6 +227,7 @@ export const convertToTimeSlotFormValues = (data: string[]): TimeSlotType[] => {
   if (!data?.length) {
     return [];
   }
+
   const formattedTime = data.map(el => {
     const time = el.split("-");
 
@@ -234,6 +247,7 @@ export const convertToTimeSlotFormValues = (data: string[]): TimeSlotType[] => {
         .local(),
     };
   });
+
   return formattedTime;
 };
 
@@ -338,6 +352,7 @@ export const splitPhoneNumber = (
   if (!phoneNumber) {
     return null;
   }
+
   const phoneNumberRegex = /^(\+\d{1,3})(\d+)$/;
   const matches = phoneNumber.match(phoneNumberRegex);
 
@@ -357,6 +372,7 @@ export const isUserDeliveryAddressValid = (
   if (!address) {
     return false;
   }
+
   const requiredFields = ["city", "area", "block", "street", "building"];
 
   return requiredFields.every(

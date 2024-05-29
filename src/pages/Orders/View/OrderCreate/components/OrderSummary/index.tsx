@@ -1,5 +1,5 @@
 // Lib
-import { FC } from "react";
+import { FC, memo } from "react";
 // Types
 import { OrderPaymentType, OrderPaymentTypeLabel } from "types/orders";
 import { SummaryData } from "../../types";
@@ -24,7 +24,7 @@ interface OrderSummaryProps {
   setPaymentType: React.Dispatch<React.SetStateAction<OrderPaymentType>>;
 }
 
-export const OrderSummary: FC<OrderSummaryProps> = ({
+export const OrderSummaryComponent: FC<OrderSummaryProps> = ({
   isBlocked,
   isBalanceError,
   paymentType,
@@ -112,3 +112,5 @@ export const OrderSummary: FC<OrderSummaryProps> = ({
     </ContentBox>
   );
 };
+
+export const OrderSummary = memo(OrderSummaryComponent);

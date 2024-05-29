@@ -1,5 +1,5 @@
 // Lib
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 // Api
 import { useLazyValidateCouponQuery } from "redux/query/couponsAPI";
 // Hooks
@@ -34,7 +34,7 @@ interface VoucherCodeProps {
   handleRemoveCoupon: (id: string) => void;
 }
 
-export const VoucherCode: FC<VoucherCodeProps> = ({
+const VoucherCodeComponent: FC<VoucherCodeProps> = ({
   isBlocked,
   coupons,
   summary,
@@ -215,3 +215,5 @@ export const VoucherCode: FC<VoucherCodeProps> = ({
     </>
   );
 };
+
+export const VoucherCode = memo(VoucherCodeComponent);

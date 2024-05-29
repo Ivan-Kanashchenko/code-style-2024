@@ -1,5 +1,5 @@
 // Lib
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 // Api
 import {
   useLazyGetCustomerAddressesQuery,
@@ -43,7 +43,7 @@ interface CustomerInformationsProps {
   setDeliveryAddresses: (addresses: GetCustomersAddressResponseDto[]) => void;
 }
 
-export const CustomerInformations: FC<CustomerInformationsProps> = ({
+const CustomerInformationsComponent: FC<CustomerInformationsProps> = ({
   customerData,
   defaultDeliveryAddress,
   setCustomerData,
@@ -207,3 +207,5 @@ export const CustomerInformations: FC<CustomerInformationsProps> = ({
     </ContentBox>
   );
 };
+
+export const CustomerInformations = memo(CustomerInformationsComponent);

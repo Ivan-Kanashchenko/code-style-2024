@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { TABLE_DATE } from "consts";
-import { dateTransform, fixedDigitsValue } from "helpers/dataHelpers";
+
 import { EFilterDateLabel, EFilterDateValue } from "types/common";
 import {
   ChargeStatus,
@@ -16,8 +16,12 @@ import {
   FilterOption,
 } from "types/tableFilters";
 
-import { Avatar, Badge } from "components";
 import { CallBlackIcon, CurrencyIcon } from "icons";
+
+import { dateTransform, fixedDigitsValue } from "helpers/dataHelpers";
+
+import { Avatar, Badge } from "components";
+
 import { FlexContainer } from "styled/Box";
 
 export const columns = [

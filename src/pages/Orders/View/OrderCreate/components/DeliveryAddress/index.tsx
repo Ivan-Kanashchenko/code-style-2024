@@ -1,5 +1,5 @@
 // Lib
-import { FC } from "react";
+import { FC, memo } from "react";
 // Types
 import { UserDeliveryAddressForm } from "types/orders";
 // Constants
@@ -34,7 +34,7 @@ export interface DeliveryAddressProps {
   setUserDeliveryAddress: (address: UserDeliveryAddressForm) => void;
 }
 
-export const DeliveryAddress: FC<DeliveryAddressProps> = ({
+const DeliveryAddressComponent: FC<DeliveryAddressProps> = ({
   isCustomerSelected,
   deliveryAddressesList,
   isUseUserPhone,
@@ -159,3 +159,5 @@ export const DeliveryAddress: FC<DeliveryAddressProps> = ({
     </ContentBox>
   );
 };
+
+export const DeliveryAddress = memo(DeliveryAddressComponent);

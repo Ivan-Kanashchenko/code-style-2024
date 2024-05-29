@@ -1,5 +1,5 @@
 // Lib
-import { FC, useEffect } from "react";
+import { FC, memo, useEffect } from "react";
 // Api
 import { useGetLocationsQuery } from "redux/query/locationsAPI";
 // Hooks
@@ -20,7 +20,7 @@ interface StoreProps {
   onLocationChange: (locationId: string) => void;
 }
 
-export const Store: FC<StoreProps> = ({
+export const StoreComponent: FC<StoreProps> = ({
   isCustomerSelected,
   locationId,
   onLocationChange,
@@ -58,3 +58,5 @@ export const Store: FC<StoreProps> = ({
     </ContentBox>
   );
 };
+
+export const Store = memo(StoreComponent);

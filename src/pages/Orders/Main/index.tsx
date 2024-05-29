@@ -1,5 +1,5 @@
 // Lib
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // Api
 import {
@@ -10,7 +10,8 @@ import {
 import { useNotification, usePermissions, useTable } from "hooks";
 // Types
 import { TablePaginationConfig } from "antd";
-import { FilterValue } from "antd/es/table/interface";
+import { FilterValue, SorterResult } from "antd/es/table/interface";
+import { GetOrdersResponseDto } from "types/orders";
 import { AdditionalFilter, ETable } from "types/tableFilters";
 // Constants
 import { ADMIN_ROUTES } from "consts";
@@ -88,26 +89,28 @@ export const Orders: FC = () => {
     }
   }, [ordersError]);
 
-  const handleTableChange = (
-    _pagination: TablePaginationConfig,
-    _filters: Record<string, FilterValue>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sorter: any,
-  ) => {
-    handleSort(sorter?.field, sorter?.order);
-  };
+  const handleTableChange = useCallback(
+    (
+      _pagination: TablePaginationConfig,
+      _filters: Record<string, FilterValue>,
+      sorter: SorterResult<GetOrdersResponseDto>,
+    ) => {
+      handleSort(sorter?.field as string, sorter?.order);
+    },
+    [handleSort],
+  );
 
-  const createNewOrder = () => {
+  const createNewOrder = useCallback(() => {
     navigate(`${ADMIN_ROUTES.ORDERS.path}/create`);
-  };
+  }, []);
 
-  const onRow = record => {
+  const onRow = useCallback(record => {
     return {
       onClick: () => {
         navigate(`${ADMIN_ROUTES.ORDERS.path}/${record.id}`);
       },
     };
-  };
+  }, []);
 
   const getExportData = async (): Promise<Record<string, unknown>[]> => {
     try {

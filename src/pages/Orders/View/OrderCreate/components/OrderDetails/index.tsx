@@ -1,5 +1,5 @@
 // Lib
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 // Types
 import { CompleteProductData } from "../../types";
 // Helpers
@@ -30,7 +30,7 @@ interface OrderDetailsProps {
   setIsCutlery: (data: boolean) => void;
 }
 
-export const OrderDetails: FC<OrderDetailsProps> = ({
+const OrderDetailsComponent: FC<OrderDetailsProps> = ({
   isBlocked,
   customerId,
   locationId,
@@ -187,3 +187,5 @@ export const OrderDetails: FC<OrderDetailsProps> = ({
     </>
   );
 };
+
+export const OrderDetails = memo(OrderDetailsComponent);

@@ -1,5 +1,5 @@
 // Lib
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Api
 import {
@@ -115,26 +115,29 @@ export const OrderCreate: FC = () => {
     setPaymentType(OrderPaymentType.FmcCents);
   }, [customerData]);
 
-  const onLocationChange = (id: string) => {
+  const onLocationChange = useCallback((id: string) => {
     setLocationId(id);
-  };
+  }, []);
 
-  const onSetIsUserPhone = (value: boolean) => {
-    if (value) {
-      const data = splitPhoneNumber(customerData.phoneNumber);
-      setUserDeliveryAddress(prev => ({
-        ...prev,
-        phone: data?.phone,
-        phoneCode: data?.phoneCode,
-      }));
-    } else {
-      setUserDeliveryAddress(prev => ({ ...prev, phone: "", phoneCode: "" }));
-    }
+  const onSetIsUserPhone = useCallback(
+    (value: boolean) => {
+      if (value) {
+        const data = splitPhoneNumber(customerData.phoneNumber);
+        setUserDeliveryAddress(prev => ({
+          ...prev,
+          phone: data?.phone,
+          phoneCode: data?.phoneCode,
+        }));
+      } else {
+        setUserDeliveryAddress(prev => ({ ...prev, phone: "", phoneCode: "" }));
+      }
 
-    setIsUserPhone(value);
-  };
+      setIsUserPhone(value);
+    },
+    [customerData],
+  );
 
-  const handleAddOrderItem = (data: CompleteProductData) => {
+  const handleAddOrderItem = useCallback((data: CompleteProductData) => {
     if (!data?.uniqId) {
       setOrderItems(prev =>
         prev.concat({ ...data, uniqId: generateUniqueId() }),
@@ -147,13 +150,13 @@ export const OrderCreate: FC = () => {
     setOrderItems(prev => handleMutateOrderItems(prev, data));
 
     openNotification({ message: `${data.product.name} successfully updated` });
-  };
+  }, []);
 
-  const handleRemoveOrderItem = (id: string) => {
+  const handleRemoveOrderItem = useCallback((id: string) => {
     setOrderItems(prev => prev.filter(i => i.uniqId !== id));
-  };
+  }, []);
 
-  const handleAddCoupon = (coupon: Coupon) => {
+  const handleAddCoupon = useCallback((coupon: Coupon) => {
     setCoupons(prev => {
       if (prev.find(c => c.id === coupon.id)) {
         return prev;
@@ -161,22 +164,28 @@ export const OrderCreate: FC = () => {
 
       return prev.concat(coupon);
     });
-  };
+  }, []);
 
-  const handleRemoveCoupon = (id: string) => {
+  const handleRemoveCoupon = useCallback((id: string) => {
     setCoupons(prev => prev.filter(i => i.id !== id));
-  };
+  }, []);
 
-  const deliveryFee = {
-    fiatCentsPrice: paymentSettingsData?.deliveryFeeFiatCents || 0,
-    totalFmcCentsPrice: paymentSettingsData?.deliveryFeeFmcCents || 0,
-  };
+  const deliveryFee = useMemo(
+    () => ({
+      fiatCentsPrice: paymentSettingsData?.deliveryFeeFiatCents || 0,
+      totalFmcCentsPrice: paymentSettingsData?.deliveryFeeFmcCents || 0,
+    }),
+    [paymentSettingsData],
+  );
 
-  const summary = calculateSummary(coupons, orderItems, deliveryFee);
+  const summary = useMemo(
+    () => calculateSummary(coupons, orderItems, deliveryFee),
+    [coupons, orderItems, deliveryFee],
+  );
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = useCallback(() => {
     setIsOrderCreateConfirm(true);
-  };
+  }, []);
 
   const handleCreateOrder = async () => {
     try {
@@ -238,16 +247,22 @@ export const OrderCreate: FC = () => {
     }
   };
 
-  const { defaultDeliveryAddress, deliveryAddressesList } =
-    getDeliveryAddresses(deliveryAddresses);
+  const { defaultDeliveryAddress, deliveryAddressesList } = useMemo(
+    () => getDeliveryAddresses(deliveryAddresses),
+    [deliveryAddresses],
+  );
 
-  const isOrderAvailable =
-    locationId && isUserDeliveryAddressValid(userDeliveryAddress);
+  const isOrderAvailable = useMemo(
+    () => locationId && isUserDeliveryAddressValid(userDeliveryAddress),
+    [locationId, userDeliveryAddress],
+  );
 
-  const isBalanceError =
-    paymentType === OrderPaymentType.FmcCents &&
-    summary.total.coins > customerData?.balanceData?.fmcCentsAmount;
-
+  const isBalanceError = useMemo(
+    () =>
+      paymentType === OrderPaymentType.FmcCents &&
+      summary.total.coins > customerData?.balanceData?.fmcCentsAmount,
+    [paymentType, summary, customerData],
+  );
   const isOrderCreatingAvailable = !!orderItems?.length && !isBalanceError;
 
   return (

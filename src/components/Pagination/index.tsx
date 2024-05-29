@@ -1,5 +1,5 @@
 // Lib
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Select } from "antd";
 // Icons
 import { DownArrowIcon } from "icons";
@@ -48,7 +48,7 @@ interface PaginationProps {
   totalItems?: number;
 }
 
-export const Pagination: FC<PaginationProps> = ({
+const PaginationComponent: FC<PaginationProps> = ({
   padding,
   shadow,
   onPage,
@@ -112,3 +112,5 @@ export const Pagination: FC<PaginationProps> = ({
     </Wrapper>
   );
 };
+
+export const Pagination = memo(PaginationComponent);

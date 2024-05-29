@@ -19,6 +19,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
         };
       }
     }
+
     if (f.field === FilterField.MULTISELECT_SINGLE_DATE) {
       if (
         f.name.toLowerCase().includes("after") &&
@@ -40,6 +41,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
               ...acc,
               [f.name]: dayjs().startOf("day")?.toISOString(),
             };
+
           case EFilterDateValue.YESTERDAY:
             return {
               ...acc,
@@ -48,6 +50,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
                 .subtract(1, "day")
                 ?.toISOString(),
             };
+
           case EFilterDateValue.IN_THE_LAST_7_DAYS:
             return {
               ...acc,
@@ -56,6 +59,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
                 .subtract(7, "day")
                 ?.toISOString(),
             };
+
           case EFilterDateValue.IN_THE_LAST_30_DAYS:
             return {
               ...acc,
@@ -64,6 +68,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
                 .subtract(30, "day")
                 ?.toISOString(),
             };
+
           case EFilterDateValue.IN_THE_LAST_90_DAYS:
             return {
               ...acc,
@@ -72,6 +77,7 @@ export const getFiltersQuery = (filters: FilterStateItem[]) => {
                 .subtract(90, "day")
                 ?.toISOString(),
             };
+
           case EFilterDateValue.IN_THE_12_MONTHS:
             return {
               ...acc,

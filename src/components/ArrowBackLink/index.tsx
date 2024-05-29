@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { NavLink } from "react-router-dom";
 
 import { ArrowBackIcon } from "icons";
@@ -11,7 +11,7 @@ interface ArrowBackLinkProps {
   path: string;
 }
 
-export const ArrowBackLink: FC<ArrowBackLinkProps> = ({ title, path }) => {
+const ArrowBackLinkComponent: FC<ArrowBackLinkProps> = ({ title, path }) => {
   return (
     <NavLink to={path}>
       <FlexContainer $align="center" $justify="center" $gap={16}>
@@ -20,3 +20,5 @@ export const ArrowBackLink: FC<ArrowBackLinkProps> = ({ title, path }) => {
     </NavLink>
   );
 };
+
+export const ArrowBackLink = memo(ArrowBackLinkComponent);

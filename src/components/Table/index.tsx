@@ -1,5 +1,5 @@
 // Lib
-import { FC } from "react";
+import { FC, memo } from "react";
 // Types
 import { TableProps } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -31,8 +31,12 @@ export interface ITableProps {
   empty?: EmptyMessage;
 }
 
+{
+  /* Unable to use Typescript, Styled Components, and Ant Design (table) together
+  GitHub issue https://github.com/styled-components/styled-components/issues/3752 */
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Table: FC<ITableProps & TableProps<any>> = ({
+export const TableComponent: FC<ITableProps & TableProps<any>> = ({
   rowKey = "id",
   isLoading = false,
   nested = false,
@@ -117,3 +121,5 @@ export const Table: FC<ITableProps & TableProps<any>> = ({
     </TableShadowContainer>
   );
 };
+
+export const Table = memo(TableComponent);
